@@ -1,14 +1,18 @@
 package it.universita.mailclient.controller;
 
 import java.util.List;
+
 import it.universita.mailclient.model.Email;
 import it.universita.mailclient.model.Inbox;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ListView;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.scene.control.Alert;
+
 import java.io.IOException;
 
 public class InboxController {
@@ -75,6 +79,23 @@ public class InboxController {
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleDeleteEmail() {
+        Email selected = emailListView.getSelectionModel().getSelectedItem();
+
+        if (selected != null) {
+            inbox.getEmails().remove(selected);
+            System.out.println("✂️ Email eliminata: " + selected.getOggetto());
+        } else {
+            // Mostra popup invece che solo nel terminale
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Attenzione");
+            alert.setHeaderText("Nessuna email selezionata");
+            alert.setContentText("Seleziona un'email prima di premere Elimina.");
+            alert.showAndWait();
         }
     }
 }

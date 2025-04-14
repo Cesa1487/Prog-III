@@ -12,4 +12,6 @@
     <ListView fx:id="emailListView" prefWidth="300" prefHeight="400"/>
 
     <Button text="Nuovo Messaggio" onAction="#openNewMessage"/>
+    <Button text="Elimina" onAction="#handleDeleteEmail" />
+
 </VBox>
