@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="it.universita.mailclient.controller.EmailDetailController"
+      spacing="10" alignment="CENTER_LEFT" style="-fx-padding: 20;">
+
+    <Label text="Mittente:"/>
+    <Text fx:id="mittenteText" />
+
+    <Label text="Oggetto:"/>
+    <Text fx:id="oggettoText" />
+
+    <Label text="Data:"/>
+    <Text fx:id="dataText" />
+
+    <Label text="Testo:"/>
+    <TextArea fx:id="testoArea" editable="false" wrapText="true" prefRowCount="10"/>
+</VBox>

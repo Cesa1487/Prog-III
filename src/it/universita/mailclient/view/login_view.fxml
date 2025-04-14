@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="it.universita.mailclient.controller.LoginController"
+      spacing="10" alignment="CENTER" style="-fx-padding: 20;">
+    <Label text="Inserisci l'indirizzo email:"/>
+    <TextField fx:id="emailTextField"/>
+    <Button text="Login" onAction="#handleLogin"/>
+</VBox>

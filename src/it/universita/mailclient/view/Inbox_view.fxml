@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="it.universita.mailclient.controller.InboxController"
+      spacing="10" alignment="CENTER" style="-fx-padding: 20;">
+
+    <ListView fx:id="emailListView" prefWidth="300" prefHeight="400"/>
+
+    <Button text="Nuovo Messaggio" onAction="#openNewMessage"/>
+</VBox>
