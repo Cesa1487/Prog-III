@@ -73,6 +73,10 @@ public class InboxController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/universita/mailclient/view/new_message_view.fxml"));
             Parent root = loader.load();
 
+            // Passiamo l'email dell'utente loggato al controller del messaggio
+            NewMessageController controller = loader.getController();
+            controller.setMittente(userEmail);
+
             Stage stage = new Stage();
             stage.setTitle("Nuovo Messaggio");
             stage.setScene(new Scene(root));

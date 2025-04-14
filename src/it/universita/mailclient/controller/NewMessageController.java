@@ -25,6 +25,12 @@ public class NewMessageController {
     @FXML
     private TextArea testoArea;
 
+    private String mittente;
+
+    public void setMittente(String mittente) {
+        this.mittente = mittente;
+    }
+
     @FXML
     private void handleSendMessage() {
         String destinatariInput = destinatariField.getText();
@@ -47,8 +53,10 @@ public class NewMessageController {
             }
         }
 
-        // 📌 Inserire il mittente reale qui quando disponibile
-        String mittente = "tuoindirizzo@mail.com";
+        if (mittente == null || mittente.isBlank()) {
+            showErrorAlert("Errore", "Mittente non definito.");
+            return;
+        }
 
         Email nuovaEmail = new Email(0, mittente, destinatari, oggetto, testo, LocalDateTime.now());
 
