@@ -102,4 +102,10 @@ public class NewMessageController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+    //per riempire i campi in automatico
+    public void prefillReply(String destinatario, String oggetto) {
+        destinatariField.setText(destinatario);
+        oggettoField.setText(oggetto);
+    }
 }

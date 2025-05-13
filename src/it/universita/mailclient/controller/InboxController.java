@@ -128,4 +128,36 @@ public class InboxController {
             alert.showAndWait();
         }
     }
+
+    //funzione di rispondi nella inbox
+    @FXML
+    private void handleReplyEmail() {
+        Email selected = emailListView.getSelectionModel().getSelectedItem();
+
+        if (selected != null) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/universita/mailclient/view/new_message_view.fxml"));
+                Parent root = loader.load();
+
+                NewMessageController controller = loader.getController();
+
+                // Pre-compila destinatario e oggetto (con "Re:" come prefisso)
+                controller.setMittente(userEmail);
+                controller.prefillReply(selected.getMittente(), "Re: " + selected.getOggetto());
+
+                Stage stage = new Stage();
+                stage.setTitle("Rispondi al messaggio");
+                stage.setScene(new Scene(root));
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Attenzione");
+            alert.setHeaderText("Nessuna email selezionata");
+            alert.setContentText("Seleziona una mail per rispondere.");
+            alert.showAndWait();
+        }
+    }
 }

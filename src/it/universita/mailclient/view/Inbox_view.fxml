@@ -12,6 +12,7 @@
     <ListView fx:id="emailListView" prefWidth="300" prefHeight="400"/>
 
     <Button text="Nuovo Messaggio" onAction="#openNewMessage"/>
+    <Button text="Rispondi" onAction="#handleReplyEmail"/>
     <Button text="Elimina" onAction="#handleDeleteEmail" />
     <Button text="Logout" onAction="#handleLogout" />
 
