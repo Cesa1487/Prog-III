@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import javafx.scene.control.Alert;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class InboxController {
 
@@ -158,6 +159,50 @@ public class InboxController {
             alert.setHeaderText("Nessuna email selezionata");
             alert.setContentText("Seleziona una mail per rispondere.");
             alert.showAndWait();
+        }
+    }
+
+    //funzione di rispondi a tutti nella inbox
+    @FXML
+    private void handleReplyAll() {
+        Email selected = emailListView.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Attenzione");
+            alert.setHeaderText("Nessuna email selezionata");
+            alert.setContentText("Seleziona un'email per rispondere a tutti.");
+            alert.showAndWait();
+            return;
+        }
+
+        List<String> destinatari = new ArrayList<>();
+        destinatari.add(selected.getMittente());
+
+        for (String d : selected.getDestinatari()) {
+            if (!d.equalsIgnoreCase(userEmail) && !destinatari.contains(d)) {
+                destinatari.add(d);
+            }
+        }
+
+        apriFinestraRisposta(destinatari, "Re: " + selected.getOggetto(), "\n\n--- Messaggio originale ---\n" + selected.getTesto());
+    }
+
+    //finestra di risposta tutti
+    private void apriFinestraRisposta(List<String> destinatari, String oggetto, String corpo) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/universita/mailclient/view/new_message_view.fxml"));
+            Parent root = loader.load();
+
+            NewMessageController controller = loader.getController();
+            controller.setMittente(userEmail);
+            controller.precompilaCampi(destinatari, oggetto, corpo);
+
+            Stage stage = new Stage();
+            stage.setTitle("Rispondi a tutti");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

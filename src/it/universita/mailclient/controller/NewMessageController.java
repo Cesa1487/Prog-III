@@ -108,4 +108,11 @@ public class NewMessageController {
         destinatariField.setText(destinatario);
         oggettoField.setText(oggetto);
     }
+
+    //per riempire campi in automatico reply-all
+    public void precompilaCampi(List<String> destinatari, String oggetto, String corpo) {
+        destinatariField.setText(String.join(", ", destinatari));
+        oggettoField.setText(oggetto);
+        testoArea.setText(corpo);
+    }
 }

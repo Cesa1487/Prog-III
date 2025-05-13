@@ -13,6 +13,7 @@
 
     <Button text="Nuovo Messaggio" onAction="#openNewMessage"/>
     <Button text="Rispondi" onAction="#handleReplyEmail"/>
+    <Button text="Rispondi a tutti" onAction="#handleReplyAll"/>
     <Button text="Elimina" onAction="#handleDeleteEmail" />
     <Button text="Logout" onAction="#handleLogout" />
 
