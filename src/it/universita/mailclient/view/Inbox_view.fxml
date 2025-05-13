@@ -13,5 +13,6 @@
 
     <Button text="Nuovo Messaggio" onAction="#openNewMessage"/>
     <Button text="Elimina" onAction="#handleDeleteEmail" />
+    <Button text="Logout" onAction="#handleLogout" />
 
 </VBox>

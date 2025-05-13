@@ -102,4 +102,30 @@ public class InboxController {
             alert.showAndWait();
         }
     }
+
+    //metodo per fare logout e accedere da un'altra mail
+    @FXML
+    private void handleLogout() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/universita/mailclient/view/login_view.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Login");
+            stage.setScene(new Scene(root));
+            stage.show();
+
+            // Chiude la finestra attuale (Inbox)
+            Stage currentStage = (Stage) emailListView.getScene().getWindow();
+            currentStage.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Errore");
+            alert.setHeaderText("Impossibile tornare alla schermata di login");
+            alert.setContentText("Errore: " + e.getMessage());
+            alert.showAndWait();
+        }
+    }
 }
