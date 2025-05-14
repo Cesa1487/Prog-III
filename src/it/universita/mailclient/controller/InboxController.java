@@ -205,4 +205,33 @@ public class InboxController {
             e.printStackTrace();
         }
     }
+
+    //funzione di inoltra messaggio
+    @FXML
+    private void handleForwardEmail() {
+        Email selected = emailListView.getSelectionModel().getSelectedItem();
+        if (selected != null) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/universita/mailclient/view/new_message_view.fxml"));
+                Parent root = loader.load();
+
+                NewMessageController controller = loader.getController();
+                controller.setMittente(userEmail);
+                controller.prefillForward(selected); // ✅ metodo da aggiungere nel NewMessageController
+
+                Stage stage = new Stage();
+                stage.setTitle("Inoltra Messaggio");
+                stage.setScene(new Scene(root));
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Attenzione");
+            alert.setHeaderText("Nessuna email selezionata");
+            alert.setContentText("Seleziona un'email da inoltrare.");
+            alert.showAndWait();
+        }
+    }
 }

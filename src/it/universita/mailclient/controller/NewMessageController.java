@@ -115,4 +115,16 @@ public class NewMessageController {
         oggettoField.setText(oggetto);
         testoArea.setText(corpo);
     }
+
+    //formato di inoltra
+    public void prefillForward(Email email) {
+        oggettoField.setText("FWD: " + email.getOggetto());
+        testoArea.setText(
+                "\n\n---------- Messaggio Inoltrato ----------\n" +
+                        "Da: " + email.getMittente() + "\n" +
+                        "A: " + String.join(", ", email.getDestinatari()) + "\n" +
+                        "Data: " + email.getDataSpedizione() + "\n\n" +
+                        email.getTesto()
+        );
+    }
 }
