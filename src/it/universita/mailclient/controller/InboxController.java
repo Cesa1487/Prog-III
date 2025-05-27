@@ -1,9 +1,11 @@
 package it.universita.mailclient.controller;
 
-import java.util.List;
-
 import it.universita.mailclient.model.Email;
 import it.universita.mailclient.model.Inbox;
+
+import it.universita.mailclient.network.ClientSocketManager;
+
+import it.universita.mailclient.utils.EmailParser;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,8 +14,16 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
 
 import java.io.IOException;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+import java.util.List;
 import java.util.ArrayList;
 
 public class InboxController {
@@ -28,6 +38,7 @@ public class InboxController {
     private ListView<Email> emailListView;
 
     private Inbox inbox;
+    private List<Email> ultimaListaEmail = new ArrayList<>();
 
     @FXML
     public void initialize() {
@@ -43,6 +54,8 @@ public class InboxController {
                 }
             }
         });
+
+        avviaAggiornamentoAutomatico();
     }
 
     public void setEmails(List<Email> emails) {
@@ -233,5 +246,70 @@ public class InboxController {
             alert.setContentText("Seleziona un'email da inoltrare.");
             alert.showAndWait();
         }
+    }
+
+    @FXML
+    private Label connessioneLabel;
+
+    private Timeline refreshTimeline;
+
+    private void aggiornaStatoConnessione(boolean connesso) {
+        if (connessioneLabel != null) {
+            connessioneLabel.setText(connesso ? " Connesso al server" : " Server non raggiungibile");
+        }
+    }
+
+    private void aggiornaInbox() {
+        try {
+            ClientSocketManager socket = new ClientSocketManager("localhost", 12345);
+            if (socket.connect()) {
+                aggiornaStatoConnessione(true);
+                socket.sendMessage("GET_EMAILS:" + userEmail);
+
+                // ✅ Lettura di tutte le righe dal server
+                BufferedReader reader = new BufferedReader(
+                        new InputStreamReader(socket.getSocket().getInputStream())
+                );
+                StringBuilder fullResponse = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    fullResponse.append(line).append("\n");
+                }
+
+                socket.disconnect();
+                String response = fullResponse.toString();
+
+                // Log della risposta grezza ricevuta dal server
+                System.out.println("Risposta grezza dal server:\n" + response);
+
+                List<Email> nuoveEmail = EmailParser.parse(response);
+
+                // 🔍 Log delle email effettivamente parseate
+                System.out.println("📨 Email ricevute dal server:");
+                for (Email email : nuoveEmail) {
+                    System.out.println(" - " + email.getOggetto() + " da " + email.getMittente());
+                }
+
+                // ⚠️ Solo se ci sono nuove email aggiungile
+                if (!nuoveEmail.equals(ultimaListaEmail)) {
+                    emailListView.getItems().setAll(nuoveEmail);
+                    ultimaListaEmail = new ArrayList<>(nuoveEmail);
+                }
+
+            } else {
+                aggiornaStatoConnessione(false);
+            }
+        } catch (IOException e) {
+            aggiornaStatoConnessione(false);
+            System.out.println("Errore durante aggiornamento inbox: " + e.getMessage());
+        }
+    }
+
+    private void avviaAggiornamentoAutomatico() {
+        refreshTimeline = new Timeline(
+                new KeyFrame(Duration.seconds(5), e -> aggiornaInbox())
+        );
+        refreshTimeline.setCycleCount(Timeline.INDEFINITE);
+        refreshTimeline.play();
     }
 }

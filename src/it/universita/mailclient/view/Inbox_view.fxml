@@ -11,6 +11,8 @@
 
     <ListView fx:id="emailListView" prefWidth="300" prefHeight="400"/>
 
+    <Label fx:id="connessioneLabel" text="Stato connessione: Sconosciuto" />
+
     <Button text="Nuovo Messaggio" onAction="#openNewMessage"/>
     <Button text="Inoltra" onAction="#handleForwardEmail"/>
     <Button text="Rispondi" onAction="#handleReplyEmail"/>
