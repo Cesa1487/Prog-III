@@ -1,23 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.control.*?>
 
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="it.universita.mailclient.controller.InboxController"
-      spacing="10" alignment="CENTER" style="-fx-padding: 20;">
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="it.universita.mailclient.controller.InboxController"
+            style="-fx-padding: 20;">
 
-    <ListView fx:id="emailListView" prefWidth="300" prefHeight="400"/>
+    <top>
+        <HBox spacing="10" style="-fx-padding: 10;">
+            <Button text="Nuovo Messaggio" onAction="#openNewMessage" prefWidth="150"/>
+            <Button text="Elimina" onAction="#handleDeleteEmail" prefWidth="150"/>
+            <Pane HBox.hgrow="ALWAYS"/>
+            <Label fx:id="connessioneLabel" text="Stato connessione: Sconosciuto" />
+        </HBox>
+    </top>
 
-    <Label fx:id="connessioneLabel" text="Stato connessione: Sconosciuto" />
+    <center>
+        <ListView fx:id="emailListView" prefWidth="300" prefHeight="400"/>
+    </center>
 
-    <Button text="Nuovo Messaggio" onAction="#openNewMessage"/>
-    <Button text="Inoltra" onAction="#handleForwardEmail"/>
-    <Button text="Rispondi" onAction="#handleReplyEmail"/>
-    <Button text="Rispondi a tutti" onAction="#handleReplyAll"/>
-    <Button text="Elimina" onAction="#handleDeleteEmail" />
-    <Button text="Logout" onAction="#handleLogout" />
+    <right>
+        <VBox spacing = "10" alignment="CENTER" style="-fx-padding: 10; -fx-border-color: lightgray; -fx-border-width: 0 0 0 1;">
+            <Button text="Inoltra" onAction="#handleForwardEmail" prefWidth="120"/>
+            <Button text="Rispondi" onAction="#handleReplyEmail" prefWidth="120"/>
+            <Button text="Rispondi a tutti" onAction="#handleReplyAll" prefWidth="120"/>
+        </VBox>
+    </right>
 
-</VBox>
+    <bottom>
+        <HBox alignment="CENTER" style="-fx-padding: 10;">
+            <Button text="Logout" onAction="#handleLogout"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>
