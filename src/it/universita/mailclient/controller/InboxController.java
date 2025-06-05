@@ -256,6 +256,7 @@ public class InboxController {
     private void aggiornaStatoConnessione(boolean connesso) {
         if (connessioneLabel != null) {
             connessioneLabel.setText(connesso ? " Connesso al server" : " Server non raggiungibile");
+            connessioneLabel.setStyle(connesso ? "-fx-text-fill: green;" : "-fx-text-fill: red;");
         }
     }
 
@@ -293,6 +294,13 @@ public class InboxController {
                 // ⚠️ Solo se ci sono nuove email aggiungile
                 if (!nuoveEmail.equals(ultimaListaEmail)) {
                     emailListView.getItems().setAll(nuoveEmail);
+
+                    // 📢 Mostra notifica popup
+                    if (!ultimaListaEmail.isEmpty() && nuoveEmail.size() > ultimaListaEmail.size()) {
+                        int nuoviMessaggi = nuoveEmail.size() - ultimaListaEmail.size();
+                        showNewEmailAlert(nuoviMessaggi);
+                    }
+
                     ultimaListaEmail = new ArrayList<>(nuoveEmail);
                 }
 
@@ -311,5 +319,13 @@ public class InboxController {
         );
         refreshTimeline.setCycleCount(Timeline.INDEFINITE);
         refreshTimeline.play();
+    }
+
+    private void showNewEmailAlert(int quanti) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("📬 Nuove Email");
+        alert.setHeaderText(null);
+        alert.setContentText("Hai ricevuto " + quanti + " nuove email.");
+        alert.show();
     }
 }
