@@ -105,14 +105,55 @@ public class InboxController {
         Email selected = emailListView.getSelectionModel().getSelectedItem();
 
         if (selected != null) {
-            inbox.getEmails().remove(selected);
-            System.out.println("✂️ Email eliminata: " + selected.getOggetto());
+            String emailId = String.valueOf(selected.getId()); // Assicurati che ogni email abbia un ID unico
+
+            // Crea un oggetto ClientSocketManager per la comunicazione con il server
+            ClientSocketManager socket = new ClientSocketManager("localhost", 12345);
+
+            try {
+                if (socket.connect()) {
+                    // Invia il comando per cancellare l'email dal server
+                    socket.sendMessage("DELETE_EMAIL:" + emailId);
+                    String response = socket.receiveMessage();  // Ricevi la risposta dal server
+                    System.out.println("Risposta server: " + response);
+
+                    // Se la risposta è OK, rimuovi l'email dalla ListView
+                    if ("OK".equalsIgnoreCase(response)) {
+                        emailListView.getItems().remove(selected);  // Rimuovi l'email localmente dalla ListView
+                        System.out.println("✂️ Email eliminata: " + selected.getOggetto());
+                    } else {
+                        // Se il server ha risposto con un errore, mostra un messaggio
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Errore");
+                        alert.setHeaderText("Impossibile eliminare l'email");
+                        alert.setContentText("Il server ha restituito un errore durante la cancellazione.");
+                        alert.showAndWait();
+                    }
+
+                } else {
+                    // Se il client non riesce a connettersi al server
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Errore Connessione");
+                    alert.setHeaderText("Impossibile connettersi al server.");
+                    alert.setContentText("Controlla la connessione.");
+                    alert.showAndWait();
+                }
+            } catch (IOException e) {
+                // Gestisci l'eccezione IOException
+                e.printStackTrace();
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Errore di Rete");
+                alert.setHeaderText("Impossibile comunicare con il server.");
+                alert.setContentText("Errore di connessione: " + e.getMessage());
+                alert.showAndWait();
+            }
+
         } else {
-            // Mostra popup invece che solo nel terminale
+            // Se nessuna email è selezionata, mostra un messaggio di avviso
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Attenzione");
             alert.setHeaderText("Nessuna email selezionata");
-            alert.setContentText("Seleziona un'email prima di premere Elimina.");
+            alert.setContentText("Seleziona una email prima di premere Elimina.");
             alert.showAndWait();
         }
     }

@@ -15,7 +15,7 @@
     </padding>
 
     <Label text="Destinatari:"/>
-    <TextField fx:id="destinatariField" promptText="es. mario@mail.com, luigi@mail.com"/>
+    <TextField fx:id="destinatariField" promptText="es. samuele@mail.com, riccardo@mail.com"/>
 
     <Label text="Oggetto:"/>
     <TextField fx:id="oggettoField" promptText="Inserisci oggetto..."/>
