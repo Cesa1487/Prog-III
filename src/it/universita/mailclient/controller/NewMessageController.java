@@ -3,6 +3,7 @@ package it.universita.mailclient.controller;
 import it.universita.mailclient.model.Email;
 import it.universita.mailclient.utils.EmailValidator;
 import it.universita.mailclient.network.ClientSocketManager;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;

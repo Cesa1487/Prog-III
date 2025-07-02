@@ -3,11 +3,12 @@ package it.universita.mailclient.controller;
 import it.universita.mailclient.model.User;
 import it.universita.mailclient.model.Email;
 import it.universita.mailclient.utils.EmailValidator;
+import it.universita.mailclient.network.ClientSocketManager;
+
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
-import it.universita.mailclient.network.ClientSocketManager;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -77,7 +78,7 @@ public class LoginController {
         }
     }
 
-    // ✅ Metodo corretto per leggere TUTTE le righe dal server
+    // Metodo corretto per leggere TUTTE le righe dal server
     private List<Email> getEmailsFromServer(String userEmail, ClientSocketManager socketManager) throws IOException {
         socketManager.sendMessage("GET_EMAILS:" + userEmail);
 

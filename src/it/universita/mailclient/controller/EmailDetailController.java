@@ -1,6 +1,7 @@
 package it.universita.mailclient.controller;
 
 import it.universita.mailclient.model.Email;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
@@ -24,7 +25,7 @@ public class EmailDetailController {
         oggettoText.setText(email.getOggetto());
         dataText.setText(email.getDataSpedizione().toString());
 
-        // ✅ Decodifica le newline salvate come "\\n" prima di mostrarle
+        //Decodifica le newline salvate come "\\n" prima di mostrarle
         String testoFormattato = email.getTesto().replace("\\n", "\n");
         testoArea.setText(testoFormattato);
     }

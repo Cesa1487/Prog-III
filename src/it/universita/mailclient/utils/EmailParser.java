@@ -3,7 +3,6 @@ package it.universita.mailclient.utils;
 import it.universita.mailclient.model.Email;
 
 import java.time.LocalDateTime;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

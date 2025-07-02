@@ -1,6 +1,7 @@
 package it.universita.mailclient.model;
 
 import java.time.LocalDateTime;
+
 import java.util.List;
 
 public class Email {

@@ -1,6 +1,7 @@
 package it.universita.mailclient.model;
 
 import java.util.List;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -27,5 +28,4 @@ public class Inbox {
     public void removeEmail(Email email) {
         emails.remove(email);
     }
-    //Eventualmente posso aggiungere vari metodi di utilità (filtraggio, ricerca, ecc.)
 }

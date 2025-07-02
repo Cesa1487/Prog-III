@@ -2,9 +2,7 @@ package it.universita.mailclient.controller;
 
 import it.universita.mailclient.model.Email;
 import it.universita.mailclient.model.Inbox;
-
 import it.universita.mailclient.network.ClientSocketManager;
-
 import it.universita.mailclient.utils.EmailParser;
 
 import javafx.fxml.FXML;
@@ -22,7 +20,6 @@ import javafx.util.Duration;
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-
 import java.util.List;
 import java.util.ArrayList;
 
@@ -45,7 +42,7 @@ public class InboxController {
         inbox = new Inbox();
         emailListView.setItems(inbox.getEmails());
 
-        // ✅ Listener per doppio clic su una mail
+        //Listener per doppio clic su una mail
         emailListView.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) {
                 Email selectedEmail = emailListView.getSelectionModel().getSelectedItem();
@@ -105,7 +102,7 @@ public class InboxController {
         Email selected = emailListView.getSelectionModel().getSelectedItem();
 
         if (selected != null) {
-            String emailId = String.valueOf(selected.getId()); // Assicurati che ogni email abbia un ID unico
+            String emailId = String.valueOf(selected.getId()); // Id unico per mail
 
             // Crea un oggetto ClientSocketManager per la comunicazione con il server
             ClientSocketManager socket = new ClientSocketManager("localhost", 12345);
@@ -272,7 +269,7 @@ public class InboxController {
 
                 NewMessageController controller = loader.getController();
                 controller.setMittente(userEmail);
-                controller.prefillForward(selected); // ✅ metodo da aggiungere nel NewMessageController
+                controller.prefillForward(selected);
 
                 Stage stage = new Stage();
                 stage.setTitle("Inoltra Messaggio");
@@ -309,7 +306,7 @@ public class InboxController {
                 aggiornaStatoConnessione(true);
                 socket.sendMessage("GET_EMAILS:" + userEmail);
 
-                // ✅ Lettura di tutte le righe dal server
+                //Lettura di tutte le righe dal server
                 BufferedReader reader = new BufferedReader(
                         new InputStreamReader(socket.getSocket().getInputStream())
                 );
@@ -327,17 +324,17 @@ public class InboxController {
 
                 List<Email> nuoveEmail = EmailParser.parse(response);
 
-                // 🔍 Log delle email effettivamente parseate
+                //Log delle email effettivamente parseate
                 System.out.println("📨 Email ricevute dal server:");
                 for (Email email : nuoveEmail) {
                     System.out.println(" - " + email.getOggetto() + " da " + email.getMittente());
                 }
 
-                // ⚠️ Solo se ci sono nuove email aggiungile
+                //Solo se ci sono nuove email aggiungile
                 if (!nuoveEmail.equals(ultimaListaEmail)) {
                     emailListView.getItems().setAll(nuoveEmail);
 
-                    // 📢 Mostra notifica popup
+                    //Mostra notifica popup
                     if (!ultimaListaEmail.isEmpty() && nuoveEmail.size() > ultimaListaEmail.size()) {
                         int nuoviMessaggi = nuoveEmail.size() - ultimaListaEmail.size();
                         showNewEmailAlert(nuoviMessaggi);
