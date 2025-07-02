@@ -238,7 +238,8 @@ public class InboxController {
             }
         }
 
-        apriFinestraRisposta(destinatari, "Re: " + selected.getOggetto(), "\n\n--- Messaggio originale ---\n" + selected.getTesto());
+        String corpo = "\n\n--- Messaggio originale ---\n" + selected.getTesto().replace("\\n", "\n");
+        apriFinestraRisposta(destinatari, "Re: " + selected.getOggetto(), corpo);
     }
 
     //finestra di risposta tutti

@@ -65,6 +65,7 @@ public class NewMessageController {
 
             if (socketManager.connect()) {
                 socketManager.sendMessage("SEND_EMAIL");
+                System.out.println("🔍 Email da inviare: " + nuovaEmail.toNetworkString());
                 socketManager.sendMessage(nuovaEmail.toNetworkString());
 
                 String response = socketManager.receiveMessage();

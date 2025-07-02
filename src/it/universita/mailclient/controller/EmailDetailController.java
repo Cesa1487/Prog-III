@@ -23,6 +23,9 @@ public class EmailDetailController {
         mittenteText.setText(email.getMittente());
         oggettoText.setText(email.getOggetto());
         dataText.setText(email.getDataSpedizione().toString());
-        testoArea.setText(email.getTesto());
+
+        // ✅ Decodifica le newline salvate come "\\n" prima di mostrarle
+        String testoFormattato = email.getTesto().replace("\\n", "\n");
+        testoArea.setText(testoFormattato);
     }
 }
