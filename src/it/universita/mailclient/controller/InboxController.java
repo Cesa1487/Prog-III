@@ -42,7 +42,7 @@ public class InboxController {
         inbox = new Inbox();
         emailListView.setItems(inbox.getEmails());
 
-        //Listener per doppio clic su una mail
+        //Doppio clic su una mail
         emailListView.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) {
                 Email selectedEmail = emailListView.getSelectionModel().getSelectedItem();
@@ -84,7 +84,7 @@ public class InboxController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/universita/mailclient/view/new_message_view.fxml"));
             Parent root = loader.load();
 
-            // Passiamo l'email dell'utente loggato al controller del messaggio
+            //Email utente loggato al controller del messaggio
             NewMessageController controller = loader.getController();
             controller.setMittente(userEmail);
 
@@ -117,7 +117,7 @@ public class InboxController {
                     // Se la risposta è OK, rimuovi l'email dalla ListView
                     if ("OK".equalsIgnoreCase(response)) {
                         emailListView.getItems().remove(selected);  // Rimuovi l'email localmente dalla ListView
-                        System.out.println("✂️ Email eliminata: " + selected.getOggetto());
+                        System.out.println(" Email eliminata: " + selected.getOggetto());
                     } else {
                         // Se il server ha risposto con un errore, mostra un messaggio
                         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -325,7 +325,7 @@ public class InboxController {
                 List<Email> nuoveEmail = EmailParser.parse(response);
 
                 //Log delle email effettivamente parseate
-                System.out.println("📨 Email ricevute dal server:");
+                System.out.println(" Email ricevute dal server:");
                 for (Email email : nuoveEmail) {
                     System.out.println(" - " + email.getOggetto() + " da " + email.getMittente());
                 }

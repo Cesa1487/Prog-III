@@ -15,6 +15,7 @@ public class ClientSocketManager {
         this.port = port;
     }
 
+    //Tentativo di connessione al server
     public boolean connect() {
         try {
             socket = new Socket(host, port);

@@ -2,6 +2,7 @@ package it.universita.mailclient.utils;
 
 import java.util.regex.Pattern;
 
+//Verifica della sintassi indirizzo mail
 public class EmailValidator {
     private static final String EMAIL_PATTERN = "^[\\w\\.-]+@[\\w\\.-]+\\.[a-zA-Z]{2,}$";
 

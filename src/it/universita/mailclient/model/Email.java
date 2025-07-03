@@ -75,7 +75,7 @@ public class Email {
     }
 
     public String toNetworkString() {
-        String testoSanificato = testo.replace("\n", "\\n"); // evita problemi nel protocollo
+        String testoSanificato = testo.replace("\n", "\\n"); // evita problemi nella visualizzazione
         return id + "|" +
                 mittente + "|" +
                 String.join(",", destinatari) + "|" +
