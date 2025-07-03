@@ -4,6 +4,7 @@ import it.universita.mailclient.model.User;
 import it.universita.mailclient.model.Email;
 import it.universita.mailclient.utils.EmailValidator;
 import it.universita.mailclient.network.ClientSocketManager;
+import it.universita.mailclient.utils.EmailParser;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,9 +15,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.*;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class LoginController {
@@ -82,35 +80,19 @@ public class LoginController {
     private List<Email> getEmailsFromServer(String userEmail, ClientSocketManager socketManager) throws IOException {
         socketManager.sendMessage("GET_EMAILS:" + userEmail);
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader(socketManager.getSocket().getInputStream()));
-        List<String> emailLines = new ArrayList<>();
+        BufferedReader reader = new BufferedReader(
+                new InputStreamReader(socketManager.getSocket().getInputStream())
+        );
+
+        StringBuilder fullResponse = new StringBuilder();
         String line;
         while ((line = reader.readLine()) != null) {
             if (!line.trim().isEmpty()) {
-                emailLines.add(line);
+                fullResponse.append(line).append("\n");
             }
         }
 
-        List<Email> emails = new ArrayList<>();
-        for (String emailLine : emailLines) {
-            String[] fields = emailLine.split("\\|");
-            if (fields.length >= 6) {
-                try {
-                    int id = Integer.parseInt(fields[0].trim());
-                    String mittente = fields[1].trim();
-                    List<String> destinatari = Arrays.asList(fields[2].trim().split(","));
-                    String oggetto = fields[3].trim();
-                    String testo = fields[4].trim();
-                    LocalDateTime data = LocalDateTime.parse(fields[5].trim());
-
-                    emails.add(new Email(id, mittente, destinatari, oggetto, testo, data));
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-        }
-
-        return emails;
+        return EmailParser.parse(fullResponse.toString());
     }
 
     private void openInboxWithEmails(String userEmail, List<Email> emails) {

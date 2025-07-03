@@ -362,7 +362,7 @@ public class InboxController {
 
     private void showNewEmailAlert(int quanti) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("📬 Nuove Email");
+        alert.setTitle(" Nuove Email");
         alert.setHeaderText(null);
         alert.setContentText("Hai ricevuto " + quanti + " nuove email.");
         alert.show();
