@@ -1,0 +1,2 @@
+1|samuele@mail.com|riccardo@mail.com,davide@mail.com|ciao|tutto bene?|2025-07-03T15:08:46.690076
+2|riccardo@mail.com|samuele@mail.com,davide@mail.com|Re: ciao|tutto bene tu?\n\n--- Messaggio originale ---\ntutto bene?|2025-07-03T15:09:12.376525
